@@ -26,6 +26,8 @@
 
     <div class="container">
 
+        @include('sweetalert::alert')
+
         <!-- Outer Row -->
         <div class="row justify-content-center">
 
@@ -48,7 +50,7 @@
                                         @foreach ($errors->all() as $error)
                                             <small class="d-block">{{ $error }}</small>
                                         @endforeach
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                        <button type="button" class="btn-close" data-dismiss="alert"></button>
                                     </div>
                                     @endif
 

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use RealRashid\SweetAlert\Facades\Alert;
 use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller implements HasMiddleware
@@ -39,6 +41,7 @@ class PermissionController extends Controller implements HasMiddleware
 
         Permission::create(['name' => $validated['name']]);
 
+        Alert::success('Permission Berhasil Dibuat', 'Permission ' . $validated['name'] . ' berhasil dibuat.');
         return redirect()->route('admin.permissions.index')->with('success', 'Permission berhasil dibuat.');
     }
 
@@ -55,12 +58,15 @@ class PermissionController extends Controller implements HasMiddleware
 
         $permission->update(['name' => $validated['name']]);
 
+        Alert::success('Permission Berhasil Diupdate', 'Permission ' . $validated['name'] . ' berhasil diupdate.');
+
         return redirect()->route('admin.permissions.index')->with('success', 'Permission berhasil diupdate.');
     }
 
     public function destroy(Permission $permission)
     {
         $permission->delete();
+        Alert::success('Permission Berhasil Dihapus', 'Permission ' . $permission->name . ' berhasil dihapus.');
         return redirect()->route('admin.permissions.index')->with('success', 'Permission berhasil dihapus.');
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class RegisterController extends Controller
 {
@@ -53,6 +54,8 @@ class RegisterController extends Controller
 
             // Regenerate session untuk security
             $request->session()->regenerate();
+
+            Alert::success('Akun Berhasil Dibuat', 'Selamat datang ' . $user->name . '!');
 
             return redirect()->intended(route('dashboard'))->with('success', 'Akun berhasil dibuat! Selamat datang.');
         } catch (\Exception $e) {

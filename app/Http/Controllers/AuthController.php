@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AuthController extends Controller
 {
@@ -39,10 +40,12 @@ class AuthController extends Controller
         if (Auth::attempt(['email' => $validated['email'], 'password' => $validated['password']], $remember)) {
             // Regenerate session untuk security
             $request->session()->regenerate();
+            Alert::success('Login Berhasil', 'Selamat datang ' . Auth::user()->name . '!');
 
             return to_route('dashboard')->with('success', 'Login berhasil!');
         }
 
+        Alert::error('Login Gagal', 'Email atau password tidak sesuai.');
         // Login gagal
         return back()
             ->withInput($request->only('email'))
@@ -61,6 +64,7 @@ class AuthController extends Controller
         // Invalidate session dan regenerate token
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+        Alert::success('Logout Berhasil', 'Anda telah berhasil logout.');
 
         return redirect()->route('login')->with('success', 'Logout berhasil!');
     }

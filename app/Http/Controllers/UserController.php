@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller implements HasMiddleware
@@ -57,6 +58,8 @@ class UserController extends Controller implements HasMiddleware
             $user->syncRoles($validated['roles']);
         }
 
+        Alert::success('User Berhasil Dibuat', 'User ' . $validated['name'] . ' berhasil dibuat.');
+
         return redirect()->route('dashboard.pages.users.index')->with('success', 'User berhasil dibuat.');
     }
 
@@ -85,6 +88,8 @@ class UserController extends Controller implements HasMiddleware
 
         $user->syncRoles($validated['roles'] ?? []);
 
+        Alert::success('User Berhasil Diupdate', 'User ' . $validated['name'] . ' berhasil diupdate.');
+
         return redirect()->route('admin.users.index')->with('success', 'User berhasil diupdate.');
     }
 
@@ -95,6 +100,8 @@ class UserController extends Controller implements HasMiddleware
         }
 
         $user->delete();
+
+        Alert::success('User Berhasil Dihapus', 'User ' . $user->name . ' berhasil dihapus.');
         return redirect()->route('dashboard.pages.users.index')->with('success', 'User berhasil dihapus.');
     }
 }

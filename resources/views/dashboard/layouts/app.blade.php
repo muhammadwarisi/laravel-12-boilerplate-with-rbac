@@ -27,6 +27,9 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
+        {{-- SweetAlert2 --}}
+        @include('sweetalert::alert')
+
         <!-- Sidebar -->
         @include('dashboard.components.sidebar')
         <!-- End of Sidebar -->
