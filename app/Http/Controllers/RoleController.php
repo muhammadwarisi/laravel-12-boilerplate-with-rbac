@@ -45,6 +45,7 @@ class RoleController extends Controller implements HasMiddleware
         $role->syncPermissions($validated['permissions'] ?? []);
 
         Alert::success('Role Berhasil Dibuat', 'Role ' . $validated['name'] . ' berhasil dibuat.');
+        activity()->log('Role created: ' . $validated['name'] . ' with permissions: ' . implode(', ', $validated['permissions'] ?? []));
 
         return redirect()->route('admin.roles.index')->with('success', 'Role berhasil dibuat.');
     }
@@ -68,6 +69,7 @@ class RoleController extends Controller implements HasMiddleware
         $role->update(['name' => $validated['name']]);
         $role->syncPermissions($validated['permissions'] ?? []);
         Alert::success('Role Berhasil Diupdate', 'Role ' . $validated['name'] . ' berhasil diupdate.');
+        activity()->log('Role updated: ' . $validated['name'] . ' with permissions: ' . implode(', ', $validated['permissions'] ?? []));
         return redirect()->route('admin.roles.index')->with('success', 'Role berhasil diupdate.');
     }
 
@@ -79,6 +81,7 @@ class RoleController extends Controller implements HasMiddleware
 
         $role->delete();
         Alert::success('Role Berhasil Dihapus', 'Role ' . $role->name . ' berhasil dihapus.');
+        activity()->log('Role deleted: ' . $role->name . ' with permissions: ' . implode(', ', $role->permissions->pluck('name')->toArray()));
         return redirect()->route('admin.roles.index')->with('success', 'Role berhasil dihapus.');
     }
 }

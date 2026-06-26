@@ -48,6 +48,7 @@ class RegisterController extends Controller
                 'email' => $validated['email'],
                 'password' => bcrypt($validated['password']),
             ]);
+            activity()->log('User registered: ' . $validated['email']);
 
             // Auto login setelah register
             Auth::login($user);

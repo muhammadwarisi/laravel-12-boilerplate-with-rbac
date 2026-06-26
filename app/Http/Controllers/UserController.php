@@ -59,8 +59,9 @@ class UserController extends Controller implements HasMiddleware
         }
 
         Alert::success('User Berhasil Dibuat', 'User ' . $validated['name'] . ' berhasil dibuat.');
+        activity()->log('User created: ' . $validated['email'] . ' with roles: ' . implode(', ', $validated['roles'] ?? []));
 
-        return redirect()->route('dashboard.pages.users.index')->with('success', 'User berhasil dibuat.');
+        return redirect()->route('dashboard')->with('success', 'User berhasil dibuat.');
     }
 
     public function edit(User $user)
@@ -89,6 +90,7 @@ class UserController extends Controller implements HasMiddleware
         $user->syncRoles($validated['roles'] ?? []);
 
         Alert::success('User Berhasil Diupdate', 'User ' . $validated['name'] . ' berhasil diupdate.');
+        activity()->log('User updated: ' . $validated['email'] . ' with roles: ' . implode(', ', $validated['roles'] ?? []));
 
         return redirect()->route('admin.users.index')->with('success', 'User berhasil diupdate.');
     }
@@ -102,6 +104,7 @@ class UserController extends Controller implements HasMiddleware
         $user->delete();
 
         Alert::success('User Berhasil Dihapus', 'User ' . $user->name . ' berhasil dihapus.');
+        activity()->log('User deleted: ' . $user->email . ' with roles: ' . implode(', ', $user->roles->pluck('name')->toArray()));
         return redirect()->route('dashboard.pages.users.index')->with('success', 'User berhasil dihapus.');
     }
 }

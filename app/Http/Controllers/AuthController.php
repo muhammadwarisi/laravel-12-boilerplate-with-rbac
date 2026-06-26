@@ -41,11 +41,13 @@ class AuthController extends Controller
             // Regenerate session untuk security
             $request->session()->regenerate();
             Alert::success('Login Berhasil', 'Selamat datang ' . Auth::user()->name . '!');
+            activity()->log('User success to login with email: ' . $validated['email']);
 
             return to_route('dashboard')->with('success', 'Login berhasil!');
         }
 
         Alert::error('Login Gagal', 'Email atau password tidak sesuai.');
+        activity()->log('User failed to login with email: ' . $validated['email']);
         // Login gagal
         return back()
             ->withInput($request->only('email'))
@@ -65,6 +67,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         Alert::success('Logout Berhasil', 'Anda telah berhasil logout.');
+        activity()->log('User logged out: ' . Auth::user()->email);
 
         return redirect()->route('login')->with('success', 'Logout berhasil!');
     }
