@@ -14,3 +14,7 @@
     <!-- Page level custom scripts -->
     <script src="{{ asset('assets/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('assets/js/demo/chart-pie-demo.js') }}"></script>
+
+    {{-- datatables --}}
+    <script src="{{ asset('assets/js/DataTables/datatables.js') }}"></script>
+    <script src="{{ asset('assets/js/DataTables/datatables.min.js') }}"></script>

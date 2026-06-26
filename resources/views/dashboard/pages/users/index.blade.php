@@ -11,17 +11,8 @@
 </div>
 
 <div class="card shadow-sm border-0">
-    <div class="card-header bg-white border-0 py-3">
-        <form method="GET" class="d-flex gap-2">
-            <input type="text" name="search" value="{{ request('search') }}" class="form-control" placeholder="Cari nama atau email..." style="max-width:300px">
-            <button type="submit" class="btn btn-outline-primary"><i class="fas fa-search"></i></button>
-            @if(request('search'))
-            <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary">Reset</a>
-            @endif
-        </form>
-    </div>
-    <div class="card-body p-0">
-        <table class="table table-hover mb-0">
+    <div class="card-body">
+        <table id="table-users" class="table table-hover mb-0">
             <thead class="table-light">
                 <tr>
                     <th class="ps-4">#</th>
@@ -76,3 +67,13 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    let table = new DataTable('#table-users', {
+        "columnDefs": [
+            { "orderable": false, "targets": [3, 5] }
+        ]
+    });
+</script>
+@endpush
